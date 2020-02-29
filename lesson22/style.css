@@ -1,0 +1,13 @@
+.box {
+    margin-left: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: brown;
+    border-radius: 10px;
+    width: 50%;
+    height: 100px;
+    font-size: 500%;
+    color: aliceblue;
+    cursor: pointer;
+}
