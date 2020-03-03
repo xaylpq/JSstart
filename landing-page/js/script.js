@@ -135,90 +135,67 @@ window.addEventListener('DOMContentLoaded', function() { // выполнение
     };
 
     let form = document.querySelector('.main-form'),
-        input = form.getElementsByTagName('input'),
-        statusMessage = document.createElement('div');
+        input = document.getElementsByTagName('input'),
+        statusMessage = document.createElement('div'),
+        formBottom = document.querySelector('#form');
+        statusMessage.classList.add('status'); // добавляем класс созданному блоку div
 
-    statusMessage.classList.add('status'); // добавляем клас созданному блоку div
+    //функция отправки через промисы
+    function sendForm(elem) {
+        elem.addEventListener('submit', function(e) {
+            e.preventDefault();
+                elem.appendChild(statusMessage);
+                let formData = new FormData(elem);
 
+                function postData(data) {
 
-    // отправка данных с модального окна
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // отменяем стандартное поведение браузера, чтобы страница не перезагружалась
-        form.appendChild(statusMessage); // при поведении submit, успешной передаче данных добавляем блок
+                    return new Promise(function(resolve, reject) {
+                        let request = new XMLHttpRequest();
 
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php'); // отправка в файл server.php
-        request.setRequestHeader('Contetn-Type', 'application/json; charset=utf-8'); // то что мы отправляем это данные из формы
+                        request.open('POST', 'server.php');
 
-        let formData = new FormData(form);
+                        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
 
-        //преобразуем данные в json формат
-        let obj = {};
-        formData.forEach(function(value, key) {
-            obj[key] = value;
+                        request.onreadystatechange = function() {
+                            if (request.readyState < 4) {
+                                resolve()
+                            } else if (request.readyState === 4) {
+                                if (request.status == 200 && request.readyState < 3) {
+                                    resolve()
+                                }
+                                else {
+                                    reject()
+                                }
+                            }
+                        }
+
+                        //преобразуем данные в json формат
+                        let obj = {};
+                        formData.forEach(function(value, key) {
+                            obj[key] = value;
+                        });
+                        let json = JSON.stringify(obj); // превращаем обычный объект в объект JSON
+
+                        request.send(json);
+                    })
+                } // End postData
+
+                function clearInput() {
+                    for (let i = 0; i < input.length; i++) {
+                        input[i].value = '';
+                    }
+                }
+
+                postData(formData)
+                    .then(() => statusMessage.innerHTML = message.loading)
+                    .then(()=> {
+                        statusMessage.innerHTML = message.success;
+                    })
+                    .catch(()=> statusMessage.innerHTML = message.failure)
+                    .then(clearInput)
         });
-        let json = JSON.stringify(obj); // превращаем обычный объект в объект JSON
+    }
+    sendForm(form);
+    sendForm(formBottom);
 
-
-        request.send(json);
-        // отправка запроса осуществлена
-
-        // вывод сообщения пользователю
-        request.addEventListener('readystatechange', function() {
-            if (request.readyState < 4) {
-                statusMessage.innerHTML = message.loading;
-            } else if (request.readyState === 4 && request.status == 200) {
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.innerHTML = message.failure;
-            }
-        });
-
-            for (let i = 0; i < input.length; i++) {
-                input[i].value = '';
-            }
-
-    });
-
-
-    // отправка данных с формы
-    let contactForm = document.querySelector('#form'),
-        inputs = contactForm.querySelectorAll('input');
-
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // отменяем стандартное поведение браузера, чтобы страница не перезагружалась
-        contactForm.appendChild(statusMessage); // при поведении submit, успешной передаче данных добавляем блок
-
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php'); // отправка в файл server.php
-        request.setRequestHeader('Contetn-Type', 'application/json; charset=utf-8'); // то что мы отправляем это данные из формы
-
-        let formData = new FormData(contactForm);
-
-        //преобразуем данные в json формат
-        let obj = {};
-        formData.forEach(function(value, key) {
-            obj[key] = value;
-        });
-        let json = JSON.stringify(obj); // превращаем обычный объект в объект JSON
-
-
-        request.send(json);
-        // отправка запроса осуществлена
-
-        // вывод сообщения пользователю
-        request.addEventListener('readystatechange', function() {
-            if (request.readyState < 4) {
-                statusMessage.innerHTML = message.loading;
-            } else if (request.readyState === 4 && request.status == 200) {
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.innerHTML = message.failure;
-            }
-        });
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = '';
-        }
-
-    });
 }); 
