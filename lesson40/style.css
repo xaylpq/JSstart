@@ -1,0 +1,38 @@
+body {
+    background: linear-gradient(to right, rgba(254,252,234,1) 0%,rgba(241,218,54,1) 100%);
+  }
+  button {
+    width: 100px;
+    height: 40px;
+    margin-right: 50px;
+  }
+  .list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+  }
+  .list-item {
+    display: block;
+    transition: 1s;
+  
+  }
+  .active {
+    width: 200px;
+    height: 80px;
+    margin-right: 70px;
+    border-radius: 100%;
+    border:none;
+    background-color: pink;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  .wrapper {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+  }
+  img {
+    height: 300px;
+  }

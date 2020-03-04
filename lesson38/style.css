@@ -1,0 +1,22 @@
+body {
+    background-color: #CED0D9;
+    margin-top: 10%;
+}
+
+.form-singin {
+    background-color: #fff;
+    width: 180px;
+    height: 170px;
+    margin: 0 auto;
+    padding: 2% 5%;
+}
+
+input {
+    display: block;
+    padding: 2%;
+    margin: 1.5%;
+}
+
+#rememberMe {
+    display: inline;
+}
