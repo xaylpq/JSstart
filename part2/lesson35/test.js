@@ -1,0 +1,1 @@
+console.log('Это из файла test.js')

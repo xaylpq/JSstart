@@ -1,0 +1,25 @@
+// Использование git
+
+git init - инициализация
+git config --global user.name 'xaylpq' - конфигурация
+git config --global user.email xaylpq@gmail.com
+
+git status - статус
+
+git add -A  - слежка
+git add .
+
+git commit -m 'Тут коммит' - регистрация в репозитории
+
+git push - пушить на гитхаб
+
+git checkout - сброс состояний
+
+git log - логи
+
+git remote - монтировать в ветку
+
+git pull - обновить репу с хаба
+    :wq - для мержда
+
+
